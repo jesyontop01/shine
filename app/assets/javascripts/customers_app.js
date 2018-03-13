@@ -19,14 +19,11 @@ app.config([
   function($routeProvider) {
     $routeProvider.when("/", {
        controller: "CustomerSearchController",
-      templateUrl: "assets/templates/customer_search.html"
+      templateUrl: "customer_search.html"
     }).when("/:id",{
        controller: "CustomerDetailController",
       templateUrl: "customer_detail.html"
-    }).
-    otherwise({
-     redirectTo: '/'
-   });
+    });
   }
 ]);
 

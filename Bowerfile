@@ -1,6 +1,6 @@
-asset 'angular'
+
 asset 'bootstrap-sass-official'
-asset 'angular-mocks'
-asset 'angular', '~> 1.5'
+asset 'angular-mocks','1.6.9'
+asset 'angular', '~> 1.6.9'
 resolution 'angular', '1.5'
-asset 'angular-route'
+asset 'angular-route' ,'1.6.9'
