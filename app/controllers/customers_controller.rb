@@ -12,9 +12,7 @@ def index
 	 @customers = Customer.where(
 		 customer_search_term.where_clause,
 		 customer_search_term.where_args).
-	 order(customer_search_term.order).offset(PAGE_SIZE * @page).limit(PAGE_SIZE)
-
-	 
+	 order(customer_search_term.order).offset(PAGE_SIZE * @page).limit(PAGE_SIZE) 
  else
 @customers = []
 end
@@ -25,10 +23,19 @@ end
 		end
 	end
 
-	def show
-		customer = Customer.find(params[:id])
-		respond_to do |format|
-			format.json {render json: customer }
-			end
-		end
+	
+	 def show
+    customer_detail = CustomerDetail.find(params[:id])
+    sleep 5
+    respond_to do |format|
+      format.json { render json: customer_detail }
+    end
+  end
+
+
+  	def update
+  		customer_detail = CustomerDetail.find(params[:id])
+  		 customer_detail.update(params)
+  		 head :ok
+  	end
 end

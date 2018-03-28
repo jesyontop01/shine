@@ -4,7 +4,10 @@
     "bootstrap-sass-official": "latest",
     "angular-mocks": "1.6.9",
     "angular": "~> 1.6.9",
-    "angular-route": "1.6.9"
+    "angular-route": "1.6.9",
+    "angular-resource": "1.6.9",
+    "angular-messages": "1.6.9",
+    "angular-bootstrap": "latest"
   },
   "resolutions": {
     "angular": "1.5"

@@ -10,7 +10,9 @@ var app = angular.module(
   'customers',
   [
     'ngRoute',
-    'templates'
+    'templates',
+    'ngResource',
+    'ngMessages'
   ]
 ); 
 
@@ -70,22 +72,69 @@ app.controller("CustomerSearchController", [
     }
   }
 ]);
+
 app.controller("CustomerDetailController", [ 
-          "$scope","$http","$routeParams",
-  function($scope , $http , $routeParams) {
+          "$scope","$routeParams","$resource",
+  function($scope , $routeParams , $resource) {
+    $scope.customerId = $routeParams.id;
+    var Customer = $resource('/customers/:customerId.json',
+                             {"customerId": "@customer_id"},
+                             { "save": { "method": "PUT" }});
 
-    // Make the Ajax call and set $scope.customer...
+    $scope.customer = Customer.get({ "customerId": $scope.customerId})
 
-    var customerId = $routeParams.id;
-    $scope.customer = {};
+    // rest of the controller...
 
-    $http.get(
-      "/customers/" + customerId + ".json"
-    ).then(function(response) {
-        $scope.customer = response.data;
-      },function(response) {
-        alert("There was a problem: " + response.status);
+
+    $scope.customer.billingSameAsShipping = false;
+    $scope.$watch('customer.billing_address_id',function() {
+      $scope.customer.billingSameAsShipping = 
+        $scope.customer.billing_address_id == 
+          $scope.customer.shipping_address_id;
+    });
+
+            $scope.save = function() {
+      if ($scope.form.$valid) {
+        $scope.customer.$save(
+          function() {
+            $scope.form.$setPristine();
+            $scope.form.$setUntouched();
+            alert("Save Successful!");
+          },
+          function() {
+            alert("Save Failed :(");
+          }
+        );
       }
-    );
+    }
   }
 ]);
+app.controller("CustomerCreditCardController",["$scope", "$resource",
+                function($scope,$resource){
+                  var CreditCardInfo = $resource('/fake_billing.json')
+                  $scope.setCardholderId = function(cardholderId){
+
+                     $scope.creditCard = CreditCardInfo.get(
+                      {"cardholder_id": cardholderId})
+
+                  }
+                 
+                }
+  ])
+
+
+
+
+
+
+app.directive("customerSummary", function(){
+  return {
+    "scope": {
+      "cust": "=",
+      "viewDetailsFunction": "="
+    },
+    "templateUrl": "customer_summary.html"
+  }
+
+})
+

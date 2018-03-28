@@ -16,6 +16,8 @@
 //= require angular-route
 //= require angular-rails-templates
 //= require_tree ./templates
+//= require angular-resource
+//= require angular-messages
+//= require customers_app
+//= require_tree ./templates
 //= require_tree .
-
-
